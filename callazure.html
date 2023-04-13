@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>文件上传</title>
+    <style>
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+        }
+
+        // 处理返回结果，弹出保存对话框
+        function handleResult(result) {
+            var blob = new Blob([result], {type: 'image/jpeg'});
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'result.jpg';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</head>
+<body>
+    <h1>上传图片</h1>
+    <form action="http://gfpgan.eastasia.cloudapp.azure.com:8080/upload" method="post" enctype="multipart/form-data" onsubmit="showLoading()">
+        <input type="file" name="file">
+        <input type="submit" value="上传">
+    </form>
+    <div id="loading" class="loading">
+        <p>正在处理，请稍候...</p>
+    </div>
+</body>
+</html>
